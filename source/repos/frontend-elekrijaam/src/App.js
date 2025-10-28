@@ -10,9 +10,21 @@ function App() {
   const [seadmed, setSeadmed] = useState([]);
   const [tarbijad, setTarbijad] = useState([]);
 
-  const tableStyle = { border: "1px solid #ddd", borderCollapse: "collapse", width: "90%", margin: "20px" };
-  const thStyle = { border: "1px solid #ddd", padding: "12px", backgroundColor: "#04AA6D", color: "white" };
-  const tdStyle = { border: "1px solid #ddd", padding: "8px" };
+  const tableStyle = {
+    border: "1px solid #ddd",
+    borderCollapse: "collapse",
+    width: "90%",
+    margin: "20px auto",
+    boxShadow: "0 3px 10px rgba(0,0,0,0.1)"
+  };
+  const thStyle = {
+    border: "1px solid #ddd",
+    padding: "12px",
+    backgroundColor: "#04AA6D",
+    color: "white",
+    textTransform: "uppercase"
+  };
+  const tdStyle = { border: "1px solid #ddd", padding: "8px", textAlign: "center" };
 
   useEffect(() => {
     fetch("https://localhost:7039/api/Arve").then(res => res.json()).then(setArved);
@@ -23,15 +35,39 @@ function App() {
     fetch("https://localhost:7039/api/Tarbija").then(res => res.json()).then(setTarbijad);
   }, []);
 
+  // 🔹 Стили для кнопок навигации
+  const navButton = (isActive) => ({
+    padding: "10px 18px",
+    marginRight: "10px",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontWeight: "bold",
+    backgroundColor: isActive ? "#04AA6D" : "#e6e6e6",
+    color: isActive ? "white" : "#333",
+    transition: "all 0.3s ease",
+    boxShadow: isActive ? "0 4px 10px rgba(0, 128, 0, 0.3)" : "0 2px 5px rgba(0, 0, 0, 0.1)",
+  });
+
+  const navContainer = {
+    margin: "20px auto",
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    gap: "10px"
+  };
+
   return (
-    <div>
-      <nav style={{ margin: "20px" }}>
-        <button onClick={() => setActiveTable('arve')}>Arve</button>
-        <button onClick={() => setActiveTable('asukoht')}>Asukoht</button>
-        <button onClick={() => setActiveTable('kontaktandmed')}>Kontaktandmed</button>
-        <button onClick={() => setActiveTable('maksestaatus')}>Maksestaatus</button>
-        <button onClick={() => setActiveTable('seadme')}>Seade</button>
-        <button onClick={() => setActiveTable('tarbija')}>Tarbija</button>
+    <div style={{ textAlign: "center", fontFamily: "Arial, sans-serif", backgroundColor: "#fafafa", minHeight: "100vh" }}>
+      <h1 style={{ marginTop: "20px", color: "#333" }}>Elektrijaam Andmehaldus</h1>
+
+      <nav style={navContainer}>
+        <button style={navButton(activeTable === 'arve')} onClick={() => setActiveTable('arve')}>Arve</button>
+        <button style={navButton(activeTable === 'asukoht')} onClick={() => setActiveTable('asukoht')}>Asukoht</button>
+        <button style={navButton(activeTable === 'kontaktandmed')} onClick={() => setActiveTable('kontaktandmed')}>Kontaktandmed</button>
+        <button style={navButton(activeTable === 'maksestaatus')} onClick={() => setActiveTable('maksestaatus')}>Maksestaatus</button>
+        <button style={navButton(activeTable === 'seadme')} onClick={() => setActiveTable('seadme')}>Seade</button>
+        <button style={navButton(activeTable === 'tarbija')} onClick={() => setActiveTable('tarbija')}>Tarbija</button>
       </nav>
 
       {/* Arve */}
@@ -73,7 +109,7 @@ function App() {
             <thead>
               <tr>
                 <th style={thStyle}>ID</th>
-                <th style={thStyle}>Tanav</th>
+                <th style={thStyle}>Tänav</th>
                 <th style={thStyle}>Maja</th>
                 <th style={thStyle}>Linn</th>
                 <th style={thStyle}>Postiindeks</th>
@@ -159,7 +195,7 @@ function App() {
                 <th style={thStyle}>Nimetus</th>
                 <th style={thStyle}>Tootja</th>
                 <th style={thStyle}>Järgmine Hooldusaeg</th>
-                <th style={thStyle}>Jaakmaksumus</th>
+                <th style={thStyle}>Jääkmaksumus</th>
                 <th style={thStyle}>Soetusmaksumus</th>
                 <th style={thStyle}>Aktiivne</th>
               </tr>
